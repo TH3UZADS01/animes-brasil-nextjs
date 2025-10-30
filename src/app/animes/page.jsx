@@ -7,10 +7,9 @@ import Link from "next/link";
 export default function Animes() {
   const [animes, setAnimes] = useState([]);
 
-  // ✅ Mude para true se quiser forçar o uso de dados mockados
+  // ✅ Alternar entre mock e API
   const USE_MOCK = false;
 
-  // ✅ Lista de animes fake (mock)
   const mockAnimes = [
     { id: 1, nome: "Naruto", genero: "Ação" },
     { id: 2, nome: "Attack on Titan", genero: "Fantasia sombria" },
@@ -25,7 +24,6 @@ export default function Animes() {
       return;
     }
 
-    // 🧩 Tenta buscar da API, se falhar usa os mockados
     fetch("http://localhost:8080/animes")
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao buscar da API");
@@ -42,7 +40,10 @@ export default function Animes() {
     <Container>
       <Header>
         <Title>Lista de Animes</Title>
-        <AddButton href="/animes/novo">+ Novo Anime</AddButton>
+        <ButtonGroup>
+          <BackButton href="/">← Voltar</BackButton>
+          <AddButton href="/animes/novo">+ Novo Anime</AddButton>
+        </ButtonGroup>
       </Header>
 
       <AnimeList>
@@ -77,6 +78,11 @@ const Title = styled.h1`
   color: #1e293b;
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
 const AddButton = styled(Link)`
   background-color: #2563eb;
   color: white;
@@ -88,6 +94,20 @@ const AddButton = styled(Link)`
 
   &:hover {
     background-color: #1d4ed8;
+  }
+`;
+
+const BackButton = styled(Link)`
+  background-color: #64748b;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #475569;
   }
 `;
 
